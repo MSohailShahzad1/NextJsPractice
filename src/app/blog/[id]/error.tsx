@@ -1,5 +1,9 @@
 "use client"
 
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+
 export default function Error({
     error,
     reset,
@@ -8,12 +12,21 @@ export default function Error({
     reset: () => void
 }) {
     return (
-        <div>
-            <h2>Error loading post</h2>
-            <p>{error.message}</p>
-            <button onClick={() => reset()}>
-                Retry
-            </button>
+        <div className="flex items-center justify-center min-h-[60vh]">
+            <Card className="max-w-md w-full">
+                <CardContent className="space-y-4 pt-6">
+                    <Alert variant="destructive">
+                        <AlertTitle>Post could not be loaded</AlertTitle>
+                        <AlertDescription>
+                            {error.message}
+                        </AlertDescription>
+                    </Alert>
+
+                    <Button onClick={() => reset()} className="w-full">
+                        Retry
+                    </Button>
+                </CardContent>
+            </Card>
         </div>
     )
 }

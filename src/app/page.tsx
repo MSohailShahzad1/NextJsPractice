@@ -10,7 +10,7 @@ import {
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/40">
+    <div className="min-h-screen bg-linear-to-b from-background to-muted/40">
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-6 py-16">
         <div className="space-y-4">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">

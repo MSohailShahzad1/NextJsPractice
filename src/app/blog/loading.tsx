@@ -1,8 +1,23 @@
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
+
 export default function Loading() {
   return (
-    <div className="mx-auto flex min-h-[60vh] w-full max-w-4xl flex-col items-center justify-center gap-3 px-6 py-16 text-muted-foreground">
-      <p className="text-sm font-semibold uppercase tracking-[0.2em]">Loading</p>
-      <p className="text-base">Fetching the latest posts…</p>
+    <div className="space-y-6">
+      <h1 className="text-2xl font-bold">All Blog Posts</h1>
+
+      {[...Array(5)].map((_, index) => (
+        <Card key={index}>
+          <CardHeader>
+            <Skeleton className="h-6 w-3/4" />
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-5/6" />
+            <Skeleton className="h-4 w-2/3" />
+          </CardContent>
+        </Card>
+      ))}
     </div>
   )
 }

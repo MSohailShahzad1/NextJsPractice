@@ -1,6 +1,8 @@
 "use client"
 
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 
 export default function Error({
   error,
@@ -10,13 +12,21 @@ export default function Error({
   reset: () => void
 }) {
   return (
-    <div className="mx-auto flex min-h-[60vh] w-full max-w-xl flex-col items-start justify-center gap-3 px-6 py-16">
-      <p className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-        Blog Error
-      </p>
-      <h2 className="text-2xl font-semibold">Something went wrong</h2>
-      <p className="text-sm text-muted-foreground">{error.message}</p>
-      <Button onClick={() => reset()}>Try again</Button>
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <Card className="max-w-md w-full">
+        <CardContent className="space-y-4 pt-6">
+          <Alert variant="destructive">
+            <AlertTitle>Something went wrong</AlertTitle>
+            <AlertDescription>
+              {error.message}
+            </AlertDescription>
+          </Alert>
+
+          <Button onClick={() => reset()} className="w-full">
+            Try Again
+          </Button>
+        </CardContent>
+      </Card>
     </div>
   )
 }

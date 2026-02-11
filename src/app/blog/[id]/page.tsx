@@ -1,5 +1,4 @@
 import Link from "next/link"
-import { notFound } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
@@ -20,10 +19,6 @@ async function getPost(id: string): Promise<Post> {
   const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
     next: { revalidate: 60 },
   })
-
-  if (res.status === 404) {
-    notFound()
-  }
 
   if (!res.ok) {
     throw new Error("Failed to fetch post")
