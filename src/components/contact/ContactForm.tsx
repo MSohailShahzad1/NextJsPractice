@@ -19,7 +19,7 @@ export function ContactForm() {
         }
 
         if (state?.error) {
-            toast.error("Please fill out all fields and try again.")
+            toast.error(state.error.name?.[0] || state.error.email?.[0] || state.error.message?.[0] || "An error occurred. Please check your input.")
         }
     }, [state])
 

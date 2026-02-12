@@ -1,5 +1,5 @@
 "use server"
-
+import { z } from "zod"
 import { revalidatePath } from "next/cache"
 import { ContactSchema } from "@/lib/validation"
 import { saveMessage } from "@/lib/messageStore"
@@ -18,8 +18,15 @@ export async function submitMessage(
     const result = ContactSchema.safeParse(data)
 
     if (!result.success) {
+        const treeErrors = z.treeifyError(result.error);
+
+        // Transform to your desired format
         return {
-            error: result.error.flatten().fieldErrors
+            error: {
+                name: treeErrors.properties?.name?.errors,
+                email: treeErrors.properties?.email?.errors,
+                message: treeErrors.properties?.message?.errors
+            }
         }
     }
 
