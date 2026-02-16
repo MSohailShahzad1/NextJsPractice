@@ -1,65 +1,46 @@
-import Image from "next/image";
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { auth } from "@/auth"
 
-export default function Home() {
+export default async function HomePage() {
+  const session = await auth()
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <section className="panel overflow-hidden">
+      <div className="grid gap-8 px-6 py-10 md:grid-cols-[1.2fr_1fr] md:px-10 md:py-14">
+        <div className="space-y-5">
+          <p className="inline-flex items-center rounded-full bg-accent/60 px-3 py-1 text-xs font-medium text-accent-foreground">
+            Organized and searchable
           </p>
+          <h1 className="text-4xl font-semibold leading-tight tracking-tight md:text-5xl">
+            Keep your ideas sharp with a focused notes workspace.
+          </h1>
+          <p className="max-w-xl text-sm text-muted-foreground md:text-base">
+            Create, edit, search, and manage notes in one place with instant feedback and a clean writing experience.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <Button asChild>
+              <Link href={session?.user ? "/notes" : "/login"}>
+                {session?.user ? "Open Notes" : "Get Started"}
+              </Link>
+            </Button>
+            {!session?.user ? (
+              <Button asChild variant="outline">
+                <Link href="/register">Create Account</Link>
+              </Button>
+            ) : null}
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="rounded-xl border border-border/60 bg-muted/50 p-5">
+          <h2 className="mb-4 text-sm font-semibold">What you can do</h2>
+          <ul className="space-y-3 text-sm text-muted-foreground">
+            <li className="rounded-lg bg-background/80 p-3">Capture notes quickly with autosized form controls.</li>
+            <li className="rounded-lg bg-background/80 p-3">Use debounced search and sorting to find content fast.</li>
+            <li className="rounded-lg bg-background/80 p-3">Track every action with status toasts and loading states.</li>
+          </ul>
         </div>
-      </main>
-    </div>
-  );
+      </div>
+    </section>
+  )
 }
