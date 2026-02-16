@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Notes App
 
-## Getting Started
+A full-stack notes application built with Next.js App Router, NextAuth (credentials), Prisma, and PostgreSQL.
 
-First, run the development server:
+## Features
+
+- User registration and login
+- Protected notes routes with auth middleware/proxy
+- Notes CRUD (create, read, update, delete)
+- Debounced search in notes list
+- Sorting (`newest`, `oldest`, `title A-Z`, `title Z-A`)
+- Pagination in notes list
+- Toast-based action feedback (login/logout/register/create/update/delete and error states)
+- Loading states for main routes and note actions
+- Responsive UI with shared design system styles
+
+## Tech Stack
+
+- `next@16` + App Router
+- `react@19`
+- `next-auth@5` (credentials provider)
+- `prisma@7` + PostgreSQL (`@prisma/adapter-pg`)
+- `zod` for input validation
+- Tailwind CSS + shadcn/ui style components
+- `sonner` for toasts
+
+## Project Structure
+
+- `src/app` - pages, layouts, route handlers, loading states
+- `src/app/api` - API routes (`auth`, `register`, `notes`)
+- `src/components` - UI and notes components
+- `src/auth.ts` - NextAuth configuration
+- `src/proxy.ts` - route protection (auth-aware redirects)
+- `src/lib/prisma.ts` - Prisma client setup
+- `src/validations` - Zod schemas
+- `prisma/schema.prisma` - DB schema
+
+## Environment Variables
+
+Create `.env` and `.env.local` with:
+
+```env
+# .env
+DATABASE_URL=postgresql://...
+
+# .env.local
+AUTH_SECRET=your-random-secret
+```
+
+## Setup
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Run Prisma migrations:
+
+```bash
+npx prisma migrate dev
+```
+
+3. Start the app:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Default local URL: `http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` - start development server
+- `npm run build` - production build
+- `npm run start` - run production server
+- `npm run lint` - run ESLint
 
-## Learn More
+## Main Routes
 
-To learn more about Next.js, take a look at the following resources:
+- `/` - home
+- `/login` - login
+- `/register` - register
+- `/notes` - notes list (search/sort/paginated)
+- `/notes/new` - create note
+- `/notes/[id]` - edit note
+- `/notes/[id]/delete` - delete confirmation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## API Endpoints
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `POST /api/register` - create account
+- `GET /api/notes` - list current user notes
+- `POST /api/notes` - create note
+- `GET /api/notes/[id]` - get single note (owned by current user)
+- `PUT /api/notes/[id]` - update note (owned by current user)
+- `DELETE /api/notes/[id]` - delete note (owned by current user)
 
-## Deploy on Vercel
+## Notes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Email is normalized (trim + lowercase) during registration and login/auth.
+- Note ownership is enforced on server routes.
+- Prisma client is generated into `src/generated/prisma`.
